@@ -25,6 +25,8 @@ io.on('connection', (client) => {
 
         client.broadcast.to( usuario.sala ).emit('listaPersonas', usuarios.getPersonasPorSala( usuario.sala ))
         
+        console.log('llego hasta aca')
+
         callback(usuarios.getPersonasPorSala( usuario.sala ));
     })
     
