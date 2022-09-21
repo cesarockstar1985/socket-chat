@@ -1,5 +1,4 @@
 var socket = io();
-
 var params = new URLSearchParams(window.location.search);
 
 if (!params.has('nombre') || !params.has('sala')) {
@@ -28,18 +27,11 @@ socket.on('disconnect', () => {
 
 });
 
-
-// Enviar información
-// socket.emit('crearMensaje', {
-//     nombre: 'Fernando',
-//     mensaje: 'Hola Mundo'
-// }, function(resp) {
-//     console.log('respuesta server: ', resp);
-// });
-
 // Escuchar información
-socket.on('crearMensaje', (mensaje) =>  {
-    console.log('Servidor:', mensaje);
+socket.on('crearMensaje', function(mensaje)  {
+    // console.log('Servidores:', mensaje);
+    renderizarMensajes( mensaje, false )
+    scrollBottom()
 });
 
 // Escuchar cambios de usuarios

@@ -6,12 +6,8 @@ const usuarios = new Usuarios()
 
 io.on('connection', (client) => {
 
-    console.log('Usuario conectado');
-
     client.on('entrarChat', ( usuario, callback ) => {
 
-        console.log( usuario )
-        
         if(!usuario.nombre){
             return callback({
                 error: true,
@@ -24,9 +20,8 @@ io.on('connection', (client) => {
         usuarios.agregarPersona( client.id, usuario.nombre, usuario.sala )
 
         client.broadcast.to( usuario.sala ).emit('listaPersonas', usuarios.getPersonasPorSala( usuario.sala ))
+        client.broadcast.to( usuario.sala ).emit('crearMensaje', crearMensajes( 'Admin', `${ usuario.nombre } se unió` ))
         
-        console.log('llego hasta aca')
-
         callback(usuarios.getPersonasPorSala( usuario.sala ));
     })
     
@@ -38,13 +33,16 @@ io.on('connection', (client) => {
 
     })
 
-    client.on('crearMensaje', ( data ) => {
+client.on('crearMensaje', ( data, callback ) => {
+    
+    const { nombre, sala } = usuarios.getPersona(client.id)
+    const { mensaje } = data
 
-        const persona = usuarios.getPersona(client.id)
+    const msg = crearMensajes( nombre, mensaje )
+    client.to( sala ).broadcast.emit( 'crearMensaje', msg )
 
-        const mensaje = crearMensajes( persona.nombre, persona.mensaje )
-        client.to( persona.sala ).broadcast.emit( 'crearMensaje', mensaje )
-    })
+    callback( msg )
+})
 
     // Mensajes privados
     client.on('mensajePrivado', data => {
