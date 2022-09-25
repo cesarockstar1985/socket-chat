@@ -9,3 +9,5 @@ Para reconstruir los módulos de node node se debe ejecutar el comando:
 ```
 npm install
 ```
+
+Crear una base de datos con nombre socketChat e importar el archivo socketChat.sql que se encuentra en el directorio Db dump.
