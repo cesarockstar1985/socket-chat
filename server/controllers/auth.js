@@ -18,6 +18,8 @@ const login = async ( req, res ) =>{
         // const salt = bcryptjs.genSaltSync()
         // usuario.password = bcryptjs.hashSync( password, salt)
 
+        // console.log( usuario.password )
+
         const validPassword = bcryptjs.compareSync( password, usuario.password )
         if( !validPassword ){
             return res.status(401).json({
