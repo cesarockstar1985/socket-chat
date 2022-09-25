@@ -16,9 +16,13 @@ Crear una base de datos con nombre socketChat e importar el archivo socketChat.s
 # Credenciales de usuarios:
 
 1. Primer Usuario:
+
 User: Cesar
+
 Pass: primerUsuario
 
 2. Segundo Usuario:
+
 User: Carlos
+
 Pass: segundoUsuario
