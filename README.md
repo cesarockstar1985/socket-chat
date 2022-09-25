@@ -1,8 +1,10 @@
 # Notas:
 
-Este es un pequeño servidor de express listo para ejecutarse y servir la carpeta public en la web.
+Este es un pequeño chat hecho con socket io y nodeJS.
 
-Recuerden que deben de reconstruir los módulos de node con el comando
+Cuenta con un login de usuario para ingresar al chat.
+
+Para reconstruir los módulos de node node se debe ejecutar el comando: 
 
 ```
 npm install
