@@ -16,6 +16,7 @@ socket.on('connect', () => {
 
     socket.emit('entrarChat', usuario, function(resp) {
         renderizarUsuarios(resp)
+        nombreSala()
     });
 
 });

@@ -33,22 +33,27 @@ io.on('connection', (client) => {
 
     })
 
-client.on('crearMensaje', ( data, callback ) => {
-    
-    const { nombre, sala } = usuarios.getPersona(client.id)
-    const { mensaje } = data
+    client.on('crearMensaje', ( data, callback ) => {
+        
+        const { nombre, sala } = usuarios.getPersona(client.id)
+        const { mensaje } = data
 
-    const msg = crearMensajes( nombre, mensaje )
-    client.to( sala ).broadcast.emit( 'crearMensaje', msg )
+        const msg = crearMensajes( nombre, mensaje )
+        client.to( sala ).broadcast.emit( 'crearMensaje', msg )
 
-    callback( msg )
-})
+        callback( msg )
+    })
 
     // Mensajes privados
     client.on('mensajePrivado', data => {
 
         const persona = usuarios.getPersona( client.id )
         client.broadcast.to( data.to ).emit('mensajePrivado', crearMensajes( persona.nombre, data.mensaje ))
+    })
+
+    client.on('getUsers', ( text, callback ) => {
+        const users = usuarios.getPersonas().filter( user => user.nombre.includes( text ) )
+        callback( users )
     })
 
 });

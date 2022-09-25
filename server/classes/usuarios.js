@@ -14,7 +14,7 @@ class Usuarios {
 
     }
 
-    getPersona(id) {
+    getPersona( id ) {
 
         let persona = this.personas.filter( persona => persona.id === id )[0]
 

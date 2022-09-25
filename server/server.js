@@ -1,8 +1,10 @@
 const express = require('express');
 const socketIO = require('socket.io');
+const cors = require('cors');
 const http = require('http');
 
 const path = require('path');
+const { dbConnection } = require('./config');
 
 const app = express();
 let server = http.createServer(app);
@@ -10,15 +12,20 @@ let server = http.createServer(app);
 const publicPath = path.resolve(__dirname, '../public');
 const port = process.env.PORT || 3000;
 
-app.use(express.static(publicPath));
+dbConnection()
+
+// Middlewares
+app.use( cors() )
+app.use( express.json() )
+app.use( express.static(publicPath) );
+
+// Routes
+app.use('/auth', require('./routes/auth'))
+app.use('/salas', require('./routes/salas'))
 
 // IO = esta es la comunicacion del backend
 module.exports.io = socketIO(server);
 require('./sockets/socket');
-
-
-
-
 
 server.listen(port, (err) => {
 

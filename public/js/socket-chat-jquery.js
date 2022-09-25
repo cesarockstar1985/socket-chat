@@ -1,21 +1,41 @@
 var params = new URLSearchParams(window.location.search)
 
+const baseUrl = 'http://localhost:3000'
+
 const nombre = params.get('nombre')
 const sala   = params.get('sala')
 
 // referncias de jQuery
 const divUsuarios = $('#divUsuarios')
-const formEnviar = $('#formEnviar')
-const txtMensaje = $('#txtMensaje')
-const divChatbox = $('#divChatbox')
+const formEnviar  = $('#formEnviar')
+const txtMensaje  = $('#txtMensaje')
+const divChatbox  = $('#divChatbox')
+const textoSala   = $('#titleSala')
+const searchUser  = $('#searchUser')
+
+const getSala = async () => {
+    const request  = await fetch( baseUrl + '/salas/getSala/' + sala )
+    const response = await request.json()
+
+    const salaDB = response.sala
+
+    return salaDB
+} 
+
+const nombreSala = async () => {
+    const salaDB = await getSala()
+    textoSala.text(salaDB.nombre)
+}
 
 // Funciones para renderizar usuarios
-const renderizarUsuarios = (personas) => { // [{}, {}, {}]
+const renderizarUsuarios = async (personas) => { // [{}, {}, {}]
 
     let html = ''
 
+    const salaDB = await getSala()
+
     html += `<li>
-                <a href="javascript:void(0)" class="active"> Chat de <span> ${ params.get('sala') }</span></a>
+                <a href="javascript:void(0)" class="active"> Chat de <span> ${ salaDB.nombre }</span></a>
             </li>`
 
     for( let i = 0; i < personas.length; i++ ){
@@ -52,6 +72,15 @@ formEnviar.on('submit', function(e){
         renderizarMensajes( mensaje, true )
         scrollBottom()
     });
+})
+
+searchUser.keyup(function(){
+    const searchText = $(this).val()
+
+    socket.emit('getUsers', searchText, ( users ) => {
+        // console.log( users );
+        renderizarUsuarios( users )
+    })
 })
 
 function renderizarMensajes( msg, yo ){
