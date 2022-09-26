@@ -4,9 +4,9 @@ class Usuarios {
         this.personas = []
     }
 
-    agregarPersona(id, nombre, sala) {
+    agregarPersona(id, nombre, sala, image) {
 
-        const persona = { id, nombre, sala }
+        const persona = { id, nombre, sala, image }
 
         this.personas.push(persona)
 

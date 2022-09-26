@@ -10,6 +10,9 @@ const Usuario = db.define('User', {
     },
     email: {
         type: DataTypes.STRING
+    },
+    image: {
+        type: DataTypes.STRING
     }
 })
 

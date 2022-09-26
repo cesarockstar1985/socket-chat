@@ -5883,3 +5883,23 @@ File: scss
     text-align: center;
     margin-top: 10px;
     overflow: hidden; } }
+
+
+
+/* CUSTOM STYLES */
+.user-profile-img{
+  width: 50px;
+  cursor: pointer;
+}
+
+#user-dropdown-menu{
+  position: absolute;
+}
+
+#userProfileLink{
+  cursor: pointer;
+}
+
+.container{
+  max-width: 900px;
+}

@@ -62,7 +62,7 @@ chat application Page
             padding: 20px; }
             .chat-main-box .chat-left-aside .chat-left-inner .style-none li a:hover, .chat-main-box .chat-left-aside .chat-left-inner .style-none li a.active {
               background: #ebf3f5; }
-  .chat-main-box .chat-right-aside {
+   {
     width: calc(100% - 250px);
     float: left; }
     .chat-main-box .chat-right-aside .chat-rbox {

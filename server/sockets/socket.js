@@ -17,7 +17,7 @@ io.on('connection', (client) => {
 
         client.join( usuario.sala )
 
-        usuarios.agregarPersona( client.id, usuario.nombre, usuario.sala )
+        usuarios.agregarPersona( client.id, usuario.nombre, usuario.sala, usuario.image )
 
         client.broadcast.to( usuario.sala ).emit('listaPersonas', usuarios.getPersonasPorSala( usuario.sala ))
         client.broadcast.to( usuario.sala ).emit('crearMensaje', crearMensajes( 'Admin', `${ usuario.nombre } se unió` ))
@@ -27,6 +27,8 @@ io.on('connection', (client) => {
     
     client.on('disconnect', () => {
         const personaBorrada = usuarios.eliminarPersona(client.id)
+
+        console.log(personaBorrada)
         
         client.broadcast.to( personaBorrada.sala ).emit('crearMensaje', crearMensajes( 'Admin', `${ personaBorrada.nombre } salió` ))
         client.broadcast.to( personaBorrada.sala ).emit('listaPersonas', usuarios.getPersonasPorSala( personaBorrada.sala ))
@@ -35,10 +37,10 @@ io.on('connection', (client) => {
 
     client.on('crearMensaje', ( data, callback ) => {
         
-        const { nombre, sala } = usuarios.getPersona(client.id)
+        const { nombre, sala, image } = usuarios.getPersona(client.id)
         const { mensaje } = data
 
-        const msg = crearMensajes( nombre, mensaje )
+        const msg = crearMensajes( nombre, mensaje, image )
         client.to( sala ).broadcast.emit( 'crearMensaje', msg )
 
         callback( msg )

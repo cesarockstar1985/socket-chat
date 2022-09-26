@@ -6,12 +6,21 @@ const nombre = params.get('nombre')
 const sala   = params.get('sala')
 
 // referncias de jQuery
-const divUsuarios = $('#divUsuarios')
-const formEnviar  = $('#formEnviar')
-const txtMensaje  = $('#txtMensaje')
-const divChatbox  = $('#divChatbox')
-const textoSala   = $('#titleSala')
-const searchUser  = $('#searchUser')
+const divUsuarios      = $('#divUsuarios')
+const formEnviar       = $('#formEnviar')
+const txtMensaje       = $('#txtMensaje')
+const divChatbox       = $('#divChatbox')
+const textoSala        = $('#titleSala')
+const searchUser       = $('#searchUser')
+const userProfileLink  = $('#userProfileLink')
+const userName         = $('#userName')
+
+const getUserByName = async () => {
+    const request = await fetch( baseUrl + '/user/getUserByName/' + nombre )
+    const { usuario } = await request.json()
+    
+    return usuario
+}
 
 const getSala = async () => {
     const request  = await fetch( baseUrl + '/salas/getSala/' + sala )
@@ -39,8 +48,9 @@ const renderizarUsuarios = async (personas) => { // [{}, {}, {}]
             </li>`
 
     for( let i = 0; i < personas.length; i++ ){
+
         html += `<li>
-                    <a class="user-row" data-id="${ personas[i].id }" href="javascript:void(0)"><img src="assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>${ personas[i].nombre } <small class="text-success">online</small></span></a>
+                    <a class="user-row" data-id="${ personas[i].id }" href="javascript:void(0)"><img src="assets/images/users/${ personas[i].image }" alt="user-img" class="img-circle user-profile-img"> <span>${ personas[i].nombre } <small class="text-success">online</small></span></a>
                 </li>`
 
     }
@@ -49,13 +59,15 @@ const renderizarUsuarios = async (personas) => { // [{}, {}, {}]
 
 }
 
+userName.text(nombre)
+
 // Listeners
 divUsuarios.on('click', '.user-row', function() {
     const id = $(this).data('id')
     console.log(id)
 })
 
-formEnviar.on('submit', function(e){
+formEnviar.on('submit', async function(e){
     e.preventDefault()
 
     if( txtMensaje.val().trim().length === 0 )
@@ -63,7 +75,7 @@ formEnviar.on('submit', function(e){
 
     const datosMensaje = {
         nombre,
-        mensaje: txtMensaje.val()
+        mensaje: txtMensaje.val(),
     }
 
     // Enviar información
@@ -83,19 +95,27 @@ searchUser.keyup(function(){
     })
 })
 
+userProfileLink.click( async function(e){
+    e.preventDefault()
+
+    const { id } = await user
+
+    window.location = `perfil.html?&id=${ id }`
+})
+
 function renderizarMensajes( msg, yo ){
-    const { nombre, mensaje, fecha } = msg
+    const { nombre, mensaje, fecha, image } = msg
     
     let html = '';
     let fechaNew = new Date( fecha )
     let hora = fechaNew.getHours() + ':' + fechaNew.getMinutes()
 
     let adminClass = 'info'
-    let image = '<div class="chat-img"><img src="assets/images/users/1.jpg" alt="user" /></div>'
+    let imageElem = `<div class="chat-img"><img src="./assets/images/users/${ image }" alt="user" /></div>`
 
     if( nombre === 'Admin' ){
         adminClass = 'danger'
-        image = ''
+        imageElem = ''
     }
 
     if( yo ){
@@ -104,12 +124,12 @@ function renderizarMensajes( msg, yo ){
                         <h5>${ nombre }</h5>
                         <div class="box bg-light-inverse">${ mensaje }</div>
                     </div>
-                    <div class="chat-img"><img src="assets/images/users/5.jpg" alt="user" /></div>
+                    <div class="chat-img"><img src="./assets/images/users/${ image }" alt="user" /></div>
                     <div class="chat-time">${ hora }</div>
                  </li>`
     } else {
         html += `<li class="animated fadeIn">
-                    ${ image }
+                    ${ imageElem }
                     <div class="chat-content">
                         <h5>${ nombre }</h5>
                         <div class="box bg-light-${ adminClass }">${ mensaje }</div>
@@ -138,3 +158,5 @@ function scrollBottom() {
         divChatbox.scrollTop(scrollHeight);
     }
 }
+
+const user = getUserByName()

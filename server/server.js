@@ -5,6 +5,7 @@ const http = require('http');
 
 const path = require('path');
 const { dbConnection } = require('./config');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 let server = http.createServer(app);
@@ -18,10 +19,15 @@ dbConnection()
 app.use( cors() )
 app.use( express.json() )
 app.use( express.static(publicPath) );
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: '/tmp/'
+}))
 
 // Routes
 app.use('/auth', require('./routes/auth'))
 app.use('/salas', require('./routes/salas'))
+app.use('/user', require('./routes/usuarios'))
 
 // IO = esta es la comunicacion del backend
 module.exports.io = socketIO(server);

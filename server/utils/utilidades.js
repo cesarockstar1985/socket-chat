@@ -1,8 +1,9 @@
-const crearMensajes = ( nombre, mensaje ) => {
+const crearMensajes = ( nombre, mensaje, image ) => {
     return {
         nombre,
         mensaje,
-        fecha: new Date().getTime()
+        fecha: new Date().getTime(),
+        image
     }
 }
 

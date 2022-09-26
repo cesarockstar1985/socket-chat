@@ -6,13 +6,26 @@ if (!params.has('nombre') || !params.has('sala')) {
     throw new Error('El nombre y sala son necesarios');
 }
 
+const getUserData = async() => {
+    const request = await fetch( baseUrl + '/user/getUserByName/' + params.get('nombre') )
+    const response = await request.json()
+    const { usuario } = await response
+
+    return usuario
+}
+
 var usuario = {
     nombre: params.get('nombre'),
-    sala: params.get('sala')
+    sala: params.get('sala'),
 };
 
-socket.on('connect', () => {
+socket.on('connect', async () => {
     console.log('Conectado al servidor');
+
+    const { image } = await getUserData()
+    usuario.image = image == '' ? 'default_user.jpg' : image
+
+    $('.user-profile-img').attr('src', './assets/images/users/' + usuario.image)
 
     socket.emit('entrarChat', usuario, function(resp) {
         renderizarUsuarios(resp)
