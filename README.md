@@ -1,6 +1,6 @@
 # Notas:
 
-Este es un pequeño chat hecho con socket io y nodeJS.
+Este es un pequeño chat hecho con socket io, express y nodeJS.
 
 Cuenta con un login de usuario para ingresar al chat.
 
@@ -11,7 +11,7 @@ npm install
 ```
 
 # Base de datos
-Crear una base de datos con nombre socketChat e importar el archivo socketChat.sql que se encuentra en el directorio Db dump.
+Abrir algun manejador de base de datos e importar el archivo socketChat.sql que se encuentra en el directorio Db dump.
 
 # Credenciales de usuarios:
 
@@ -26,3 +26,17 @@ Crear una base de datos con nombre socketChat e importar el archivo socketChat.s
     User: Carlos
 
     Pass: segundoUsuario
+    
+    
+# Ejecutar la app
+Para ejecutar el chat ir a la raíz del proyecto y ejecutar:
+
+```
+npm start
+```
+
+El servidor que corre la aplicación se encuentra en el puerto 3000:
+
+En un navegador ingresar a localhost:3000
+
+
