@@ -1,9 +1,9 @@
-# Notas:
+# Notes:
 
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/cesarockstar1985/socket-chat/blob/main/README.md)
-[![es](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/cesarockstar1985/socket-chat/blob/main/README.es.md)
+[![es](https://img.shields.io/badge/lang-es-green.svg)](https://github.com/cesarockstar1985/socket-chat/blob/main/README.es.md)
 
-This is a smal chat made with socket io, express and nodeJS
+This is a small chat made with socket io, express and nodeJS
 
 It has a user login to enter the chat.
 
