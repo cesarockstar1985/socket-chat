@@ -1,7 +1,7 @@
 const { DataTypes, Sequelize } = require('sequelize')
 const { db } = require('../db/connection')
 
-const Usuario = db.define('User', {
+const Usuario = db.define('user', {
     nombre: {
         type: DataTypes.STRING
     },

@@ -3,6 +3,7 @@ const { Sala } = require('../models/sala')
 const getSalas = async ( req, res ) =>{
 
     try {
+
         const salas = await Sala.findAll()
 
         if(!salas){
