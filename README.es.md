@@ -1,5 +1,8 @@
 # Notas:
 
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/cesarockstar1985/socket-chat/blob/main/README.md)
+[![es](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/cesarockstar1985/socket-chat/blob/main/README.es.md)
+
 Este es un pequeño chat hecho con socket io, express y nodeJS.
 
 Cuenta con un login de usuario para ingresar al chat.
