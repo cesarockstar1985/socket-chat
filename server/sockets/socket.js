@@ -27,8 +27,6 @@ io.on('connection', (client) => {
     
     client.on('disconnect', () => {
         const personaBorrada = usuarios.eliminarPersona(client.id)
-
-        console.log(personaBorrada)
         
         client.broadcast.to( personaBorrada.sala ).emit('crearMensaje', crearMensajes( 'Admin', `${ personaBorrada.nombre } salió` ))
         client.broadcast.to( personaBorrada.sala ).emit('listaPersonas', usuarios.getPersonasPorSala( personaBorrada.sala ))
@@ -53,8 +51,12 @@ io.on('connection', (client) => {
         client.broadcast.to( data.to ).emit('mensajePrivado', crearMensajes( persona.nombre, data.mensaje ))
     })
 
-    client.on('getUsers', ( text, callback ) => {
-        const users = usuarios.getPersonas().filter( user => user.nombre.includes( text ) )
+    client.on('getUsers', ( data, callback ) => {
+        const { searchText, sala } = data
+        const firstLetter = searchText.charAt(0)
+        const textCamelcase = firstLetter.toUpperCase() + searchText.slice(1)
+        const users = usuarios.getPersonasPorSala(sala).filter( user => user.nombre.includes( textCamelcase  ) )
+        // console.log(users)
         callback( users )
     })
 

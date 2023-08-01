@@ -88,8 +88,12 @@ formEnviar.on('submit', async function(e){
 
 searchUser.keyup(function(){
     const searchText = $(this).val()
+    const data = {
+        searchText,
+        sala
+    }
 
-    socket.emit('getUsers', searchText, ( users ) => {
+    socket.emit('getUsers', data, ( users ) => {
         // console.log( users );
         renderizarUsuarios( users )
     })
